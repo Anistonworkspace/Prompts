@@ -1,1 +1,440 @@
 # Prompts
+
+
+
+
+
+
+Act as a 20+ year experienced full-stack application auditor, senior code reviewer, security engineer, QA lead, DevOps reviewer, database architect, UI/UX quality checker, and production release gatekeeper.
+
+I want you to perform a COMPLETE FULL APPLICATION AUDIT of this codebase from scratch.
+
+IMPORTANT RULES:
+1. Do not modify code yet unless I explicitly approve fixes after your audit.
+2. First inspect and understand the entire repository structure.
+3. Read all important files needed to understand the application:
+   - README files
+   - CLAUDE.md
+   - package.json / lock files
+   - frontend source
+   - backend source
+   - database schema/migrations
+   - Docker / deploy / CI/CD files
+   - env examples
+   - config files
+   - scripts
+   - tests
+   - middleware
+   - auth/session/permission logic
+   - API routes/controllers/services
+   - UI components/pages/layouts
+4. If CLAUDE.md is missing, outdated, incomplete, or does not match the current codebase, report exactly what should be added/updated in CLAUDE.md first.
+5. Do not push code.
+6. Do not run destructive scripts.
+7. Do not run database migrations against production.
+8. Do not delete, overwrite, truncate, reset, seed, or alter production data.
+9. If you need to run commands, prefer safe read-only commands first.
+10. If any command can change data, stop and ask for approval first.
+11. At the end, ask me for explicit approval before fixing anything.
+
+APPLICATION AUDIT OBJECTIVE:
+Audit the entire full-stack application and produce a professional, production-grade audit report. I want to know whether this application is safe to push, safe to deploy, safe for production, and what must be fixed before release.
+
+PHASE 1 — REPOSITORY UNDERSTANDING
+Inspect the project structure and explain:
+1. What kind of application this is.
+2. Frontend framework and architecture.
+3. Backend framework and architecture.
+4. Database/ORM used.
+5. Authentication/session approach.
+6. Authorization/RBAC/permission model.
+7. Build/deployment method.
+8. Important modules/features detected.
+9. Any unclear or missing project documentation.
+10. Whether CLAUDE.md is accurate and complete.
+
+PHASE 2 — CLAUDE.md AUDIT
+Check whether CLAUDE.md exists and whether it correctly documents:
+1. App purpose.
+2. Tech stack.
+3. Folder structure.
+4. Local setup commands.
+5. Build/test commands.
+6. Database commands.
+7. Migration policy.
+8. Environment variables.
+9. Deployment flow.
+10. Production safety rules.
+11. Security rules.
+12. Testing requirements.
+13. Known architectural decisions.
+14. “Do not push/deploy/migrate without approval” rule.
+
+If CLAUDE.md is missing or outdated, provide a recommended updated CLAUDE.md section in the audit report, but do not write it unless I approve.
+
+PHASE 3 — SECURITY AUDIT
+Perform a deep security review and report:
+1. Secrets committed in repo.
+2. Unsafe .env files.
+3. JWT/session weaknesses.
+4. Cookie/localStorage/sessionStorage risks.
+5. CSRF risks.
+6. XSS risks.
+7. SQL injection / ORM misuse risks.
+8. API route authorization gaps.
+9. Role/permission bypass possibilities.
+10. Privilege escalation risks.
+11. File upload/download security.
+12. Public static file exposure.
+13. Webhook security.
+14. Rate limiting gaps.
+15. Password reset/change security.
+16. Sensitive data logging.
+17. CORS configuration.
+18. CSP/security headers.
+19. Admin route protection.
+20. Production-only security risks.
+
+For every security issue, include:
+- Severity: Critical / High / Medium / Low
+- File(s)
+- Exact risk
+- Exploit scenario
+- Required fix
+- Whether it blocks push/deploy
+
+PHASE 4 — QA / QUALITY CHECKER AUDIT
+Audit the app like a senior QA lead. Check:
+1. Broken user flows.
+2. Incomplete workflows.
+3. Missing save/update behavior.
+4. Missing validation.
+5. Missing loading states.
+6. Missing error states.
+7. Empty state issues.
+8. Duplicate/confusing flows.
+9. Inconsistent behavior between similar pages.
+10. Missing confirmation dialogs.
+11. Dangerous actions without warning.
+12. Form reset bugs.
+13. Modal/dialog bugs.
+14. Data refresh bugs.
+15. Stale UI after mutation.
+16. Incorrect success/error messages.
+17. Edge cases that can break.
+18. Role/user-specific QA issues.
+19. Mobile/responsive QA issues.
+20. Production-only QA risks.
+
+For each QA issue, include:
+- Feature/module
+- Steps to reproduce if possible
+- Expected behavior
+- Actual behavior/risk
+- Severity
+- Suggested fix
+
+PHASE 5 — TESTING AUDIT
+Check the current testing setup and report:
+1. Are there unit tests?
+2. Are there integration tests?
+3. Are there E2E tests?
+4. Are there API tests?
+5. Are there auth/permission tests?
+6. Are there DB/migration tests?
+7. Are there UI regression tests?
+8. Are there production smoke tests?
+9. Are there CI tests?
+10. Which critical flows are not tested?
+
+Run safe test/build/lint/typecheck commands if available. If commands fail, report:
+- Command run
+- Error summary
+- Root cause
+- Whether it blocks push/deploy
+- Required fix
+
+Also provide a missing test plan:
+- Critical tests required before push
+- Critical tests required before production deploy
+- Suggested manual smoke test checklist
+
+PHASE 6 — CODE REVIEW AUDIT
+Review the codebase like a senior staff engineer. Check:
+1. Large files/components/controllers.
+2. Duplicate code.
+3. Dead code.
+4. Unused imports/dependencies.
+5. Hardcoded values.
+6. Poor naming.
+7. Inconsistent patterns.
+8. Weak separation of concerns.
+9. Business logic inside UI components.
+10. Missing service layers.
+11. Missing validation layers.
+12. Poor error handling.
+13. Inconsistent API response format.
+14. Console logs/debug code.
+15. TODO/FIXME comments.
+16. Unreachable code.
+17. Overly complex functions.
+18. Missing types or weak typing.
+19. Any code smell that can cause future bugs.
+20. Any duplicated application flow that should be unified.
+
+For every code quality issue, include:
+- File(s)
+- Problem
+- Why it matters
+- Recommended refactor
+- Priority: P0 / P1 / P2 / P3
+
+PHASE 7 — FRONTEND AUDIT
+Audit the frontend fully:
+1. Page structure.
+2. Routing.
+3. Protected routes.
+4. State management.
+5. API integration.
+6. Form handling.
+7. Error/loading states.
+8. Component reuse.
+9. UI consistency.
+10. Accessibility.
+11. Responsive/mobile behavior.
+12. Table/list performance.
+13. Modal/dropdown/popover behavior.
+14. Dark/light theme consistency if applicable.
+15. Missing wiring between frontend and backend.
+16. Broken buttons or actions.
+17. Bad icons/labels/confusing UI.
+18. Duplicate pages or duplicate flows.
+19. Any feature visible in UI but not actually working.
+20. Any backend feature not exposed properly in UI.
+
+PHASE 8 — BACKEND AUDIT
+Audit the backend fully:
+1. Routes.
+2. Controllers.
+3. Services.
+4. Middleware.
+5. Auth middleware.
+6. Permission checks.
+7. Input validation.
+8. Error handling.
+9. Transactions.
+10. Race conditions.
+11. Background jobs/cron.
+12. File upload handling.
+13. External integrations.
+14. Logging.
+15. Rate limiting.
+16. API response consistency.
+17. Pagination/filtering/search.
+18. Data ownership checks.
+19. Multi-tenant or role-specific data isolation.
+20. Missing backend wiring for frontend features.
+
+PHASE 9 — DATABASE & MIGRATION AUDIT
+Audit database safety:
+1. Current schema/models.
+2. Migration history.
+3. Whether a migration is required.
+4. Pending schema changes.
+5. Destructive migration risks.
+6. Missing indexes.
+7. Missing constraints.
+8. Unsafe nullable fields.
+9. Foreign key problems.
+10. Cascade delete risks.
+11. Seed script risks.
+12. Production data compatibility.
+13. Rollback requirements.
+14. Backup requirement before deploy.
+15. Data loss risk.
+16. Data corruption risk.
+17. Any script that can alter production data.
+18. Whether local schema and production schema may drift.
+
+Return clearly:
+- Database Migration Required: YES / NO / UNSURE
+- Migration Risk: Low / Medium / High / Critical
+- Backup Required Before Deploy: YES / NO
+- Data Loss Risk: YES / NO / UNSURE
+
+PHASE 10 — DEVOPS / CI/CD / DEPLOYMENT AUDIT
+Audit deployment readiness:
+1. GitHub Actions / CI pipeline.
+2. Dockerfiles.
+3. Docker Compose.
+4. Build commands.
+5. Start commands.
+6. Environment variable handling.
+7. Production secrets safety.
+8. Health checks.
+9. Logging.
+10. Restart policy.
+11. Rollback plan.
+12. Artifact safety.
+13. Dependency lockfile sync.
+14. Node/package version compatibility.
+15. Frontend build output.
+16. Backend runtime readiness.
+17. Static file serving.
+18. Reverse proxy/Nginx assumptions.
+19. Production deploy risk.
+20. Manual approval gates.
+
+PHASE 11 — PERFORMANCE AUDIT
+Audit performance and scalability:
+1. Slow queries.
+2. Missing DB indexes.
+3. N+1 queries.
+4. Large API payloads.
+5. Missing pagination.
+6. Frontend rerender issues.
+7. Large bundle risk.
+8. Heavy imports.
+9. Memory leaks.
+10. Socket/realtime load if applicable.
+11. Background job scalability.
+12. Caching opportunities.
+13. File upload/download performance.
+14. Dashboard/table/list performance.
+15. Production load risks.
+
+PHASE 12 — APPLICATION FLOW & DUPLICATION AUDIT
+Find duplicate or conflicting flows:
+1. Same feature implemented in multiple places.
+2. Two pages doing almost the same thing.
+3. Multiple sources of truth for same data.
+4. Frontend state and backend state mismatch.
+5. Duplicate API endpoints.
+6. Duplicate permission checks with different behavior.
+7. Duplicate validation rules.
+8. Duplicate constants/enums.
+9. Duplicate status values.
+10. Duplicate settings/config values.
+11. Missing centralization.
+12. Old/deprecated flow still active.
+13. UI exposing old flow.
+14. Backend still supporting unused old flow.
+15. Any place where user can complete the same action through inconsistent paths.
+
+PHASE 13 — FEATURE COMPLETENESS / MISSING WIRING AUDIT
+Detect incomplete implementation:
+1. UI exists but API missing.
+2. API exists but UI missing.
+3. Database field exists but unused.
+4. Backend service exists but route missing.
+5. Route exists but controller incomplete.
+6. Button exists but handler missing.
+7. Form field exists but not saved.
+8. Saved data not displayed.
+9. Displayed data not editable.
+10. Edit works but not persisted.
+11. Permissions shown in UI but not enforced in backend.
+12. Backend enforces permission but UI hides/shows incorrectly.
+13. Feature works locally but may fail in production.
+14. Feature works for one role but not another.
+15. Feature has no tests.
+
+PHASE 14 — FINAL SCORECARD
+Give a score out of 10 for each category:
+
+1. Security Score: __ / 10
+2. QA / Functional Quality Score: __ / 10
+3. Testing Score: __ / 10
+4. Code Quality Score: __ / 10
+5. Frontend Quality Score: __ / 10
+6. Backend Quality Score: __ / 10
+7. Database / Migration Safety Score: __ / 10
+8. DevOps / Deployment Score: __ / 10
+9. Performance Score: __ / 10
+10. Maintainability Score: __ / 10
+11. Production Readiness Score: __ / 10
+12. Overall Application Score: __ / 10
+
+Use strict scoring. Do not inflate the score.
+
+PHASE 15 — RELEASE DECISION
+Return this exact release decision format:
+
+Push Status:
+- SAFE TO PUSH / SAFE AFTER FIXES / NOT SAFE TO PUSH
+
+Production Deploy Status:
+- SAFE TO DEPLOY / SAFE AFTER FIXES / NOT SAFE TO DEPLOY
+
+Database Migration Required:
+- YES / NO / UNSURE
+
+Data Loss Risk:
+- YES / NO / UNSURE
+
+Security Risk:
+- LOW / MEDIUM / HIGH / CRITICAL
+
+QA Risk:
+- LOW / MEDIUM / HIGH / CRITICAL
+
+Testing Risk:
+- LOW / MEDIUM / HIGH / CRITICAL
+
+Overall Risk:
+- LOW / MEDIUM / HIGH / CRITICAL
+
+PHASE 16 — PRIORITIZED FIX PLAN
+Group all findings into:
+
+P0 — Critical blockers:
+Must fix before push/deploy.
+
+P1 — High priority:
+Should fix before production.
+
+P2 — Medium priority:
+Can fix soon after release if not blocking.
+
+P3 — Low priority:
+Cleanup/improvement.
+
+For each item, include:
+- Issue
+- File(s)
+- Risk
+- Required fix
+- Estimated difficulty: Easy / Medium / Hard
+- Whether it requires DB migration
+- Whether it requires manual testing
+
+PHASE 17 — FINAL APPROVAL QUESTION
+At the very end, ask me:
+
+“Do you want me to fix all P0/P1 issues now? I will not modify files, run migrations, push code, deploy, or run any destructive command until you explicitly approve.”
+
+FINAL OUTPUT FORMAT:
+Use this structure:
+
+1. Executive Summary
+2. Application Understanding
+3. CLAUDE.md Audit
+4. Security Audit Report
+5. QA / Functional Audit Report
+6. Testing Audit Report
+7. Code Review Report
+8. Frontend Audit Report
+9. Backend Audit Report
+10. Database & Migration Audit Report
+11. DevOps / CI/CD Audit Report
+12. Performance Audit Report
+13. Duplication & Application Flow Audit
+14. Missing Wiring / Incomplete Feature Audit
+15. Scorecard
+16. Release Decision
+17. P0/P1/P2/P3 Fix Plan
+18. Commands Run
+19. Files Reviewed
+20. Final Approval Question
+
+Be strict, detailed, and honest. If you are unsure about something, say UNSURE and explain what must be checked. Do not assume production safety without evidence.
