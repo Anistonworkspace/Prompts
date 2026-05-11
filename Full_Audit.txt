@@ -1,8 +1,6 @@
 # Full  Prompts
 
-
-
-Act as a 20+ year experienced full-stack application auditor, senior code reviewer, security engineer, QA lead, DevOps reviewer, database architect, UI/UX quality checker, and production release gatekeeper.
+Act as a 20+ year experienced full-stack application auditor, senior code reviewer, security engineer, QA lead, DevOps reviewer, database architect, UI/UX quality checker, production release gatekeeper, application logic analyzer, enterprise software architect, API auditor, edge-case analyst, and broken-flow detector.
 
 I want you to perform a COMPLETE FULL APPLICATION AUDIT of this codebase from scratch.
 
@@ -25,17 +23,69 @@ IMPORTANT RULES:
    - auth/session/permission logic
    - API routes/controllers/services
    - UI components/pages/layouts
+   - navigation/sidebar/header/menu/tab configuration
+   - feature flags/config toggles
+   - constants/enums/status mappings
+   - shared utilities/hooks/services
+   - form schemas/validators
+   - error handlers
+   - logging/monitoring utilities
+   - integration/webhook/client SDK files
+   - background jobs/cron/queue workers
+   - upload/download/storage logic
+   - permission matrices or RBAC helpers
 4. If CLAUDE.md is missing, outdated, incomplete, or does not match the current codebase, report exactly what should be added/updated in CLAUDE.md first.
 5. Do not push code.
-6. Do not run destructive scripts.
-7. Do not run database migrations against production.
-8. Do not delete, overwrite, truncate, reset, seed, or alter production data.
-9. If you need to run commands, prefer safe read-only commands first.
-10. If any command can change data, stop and ask for approval first.
-11. At the end, ask me for explicit approval before fixing anything.
+6. Do not commit code.
+7. Do not run destructive scripts.
+8. Do not run database migrations against production.
+9. Do not delete, overwrite, truncate, reset, seed, or alter production data.
+10. If you need to run commands, prefer safe read-only commands first.
+11. If any command can change data, stop and ask for approval first.
+12. At the end, ask me for explicit approval before fixing anything.
+13. Do not mark anything “safe” unless verified by code review, build/test commands, and flow tracing.
+14. Do not skip dead UI, dead tabs, broken buttons, missing handlers, missing API wiring, logic gaps, error handling gaps, edge cases, or enterprise readiness risks.
+15. If you are unsure whether a feature is working, mark it as UNSURE and explain exactly what must be tested.
+16. Do not assume production safety without evidence.
+17. Do not hide critical issues to make the report look positive.
+18. Use strict scoring. Do not inflate scores.
+19. If a feature looks complete visually but is not actually wired, mark it clearly as incomplete.
+20. If a feature only works on the happy path, mark the missing edge cases.
 
 APPLICATION AUDIT OBJECTIVE:
-Audit the entire full-stack application and produce a professional, production-grade audit report. I want to know whether this application is safe to push, safe to deploy, safe for production, and what must be fixed before release.
+Audit the entire full-stack application and produce a professional, production-grade, enterprise-level audit report. I want to know whether this application is safe to push, safe to deploy, safe for production, and what must be fixed before release.
+
+The audit must find:
+1. Security issues.
+2. QA issues.
+3. Broken functionality.
+4. Dead tabs.
+5. Dead UI.
+6. Buttons/actions that do nothing.
+7. UI that exists but is not wired to backend.
+8. Backend logic that exists but is not exposed in UI.
+9. API routes that are unused, broken, unsafe, duplicated, undocumented, or incorrectly protected.
+10. Logic issues and incorrect business rules.
+11. Missing validation.
+12. Missing error handling.
+13. Missing loading/empty/success/failure states.
+14. Edge cases that can break the app.
+15. Duplicate flows.
+16. Conflicting flows.
+17. Missing wiring between frontend, backend, database, API, integrations, and deployment.
+18. Code quality problems.
+19. Testing gaps.
+20. Production deployment risks.
+21. Enterprise architecture risks.
+22. API reliability and security risks.
+23. Maintainability risks.
+24. Observability/logging gaps.
+25. Compliance/audit-readiness gaps.
+26. Data corruption/data loss risks.
+27. Performance/scalability bottlenecks.
+28. Configuration and environment risks.
+29. Local vs production behavior differences.
+30. Any gap that can cause production incidents.
 
 PHASE 1 — REPOSITORY UNDERSTANDING
 Inspect the project structure and explain:
@@ -49,6 +99,16 @@ Inspect the project structure and explain:
 8. Important modules/features detected.
 9. Any unclear or missing project documentation.
 10. Whether CLAUDE.md is accurate and complete.
+11. Main navigation structure.
+12. Main user roles/personas.
+13. Main business workflows.
+14. Main data models/entities.
+15. Any modules that appear incomplete, duplicated, unused, deprecated, or abandoned.
+16. Main API route groups.
+17. Main external integrations.
+18. Background jobs/cron/queue workers.
+19. File upload/download/storage strategy.
+20. Any production-critical areas.
 
 PHASE 2 — CLAUDE.md AUDIT
 Check whether CLAUDE.md exists and whether it correctly documents:
@@ -66,6 +126,17 @@ Check whether CLAUDE.md exists and whether it correctly documents:
 12. Testing requirements.
 13. Known architectural decisions.
 14. “Do not push/deploy/migrate without approval” rule.
+15. Main business flows.
+16. Role/permission model.
+17. Known modules and feature ownership.
+18. Known dangerous scripts or production-sensitive commands.
+19. Required audit process before push/deploy.
+20. Known local vs production differences.
+21. API route overview.
+22. Integration overview.
+23. Background job overview.
+24. File storage/upload/download rules.
+25. Enterprise production-readiness rules.
 
 If CLAUDE.md is missing or outdated, provide a recommended updated CLAUDE.md section in the audit report, but do not write it unless I approve.
 
@@ -91,6 +162,16 @@ Perform a deep security review and report:
 18. CSP/security headers.
 19. Admin route protection.
 20. Production-only security risks.
+21. Frontend-only permission checks without backend enforcement.
+22. Backend routes reachable without proper ownership validation.
+23. Insecure direct object reference risks.
+24. Missing audit trail for sensitive actions.
+25. Unsafe error messages exposing internals.
+26. Mass assignment / overposting risks.
+27. Missing tenant/user isolation.
+28. Unsafe public health/debug/status endpoints.
+29. Missing brute-force protections.
+30. Unsafe third-party integration credentials.
 
 For every security issue, include:
 - Severity: Critical / High / Medium / Low
@@ -122,6 +203,21 @@ Audit the app like a senior QA lead. Check:
 18. Role/user-specific QA issues.
 19. Mobile/responsive QA issues.
 20. Production-only QA risks.
+21. Dead tabs that open but show no real working functionality.
+22. Dead UI elements that are visible but not connected to any logic.
+23. Buttons/icons/menus/dropdowns that do nothing.
+24. Tabs/pages that show placeholder, mock, random, or fake data.
+25. Features that appear complete in UI but are incomplete in backend.
+26. Features that save partially but do not reload correctly.
+27. Features that work only until refresh.
+28. Features that fail silently.
+29. Features with missing permission-specific behavior.
+30. Features with unclear or misleading labels.
+31. Features that work for one user type but fail for another.
+32. Features that do not handle slow network/API failure.
+33. Features that allow duplicate submissions.
+34. Features that do not prevent invalid state changes.
+35. Features that do not recover from failed actions.
 
 For each QA issue, include:
 - Feature/module
@@ -130,6 +226,7 @@ For each QA issue, include:
 - Actual behavior/risk
 - Severity
 - Suggested fix
+- Whether it blocks push/deploy
 
 PHASE 5 — TESTING AUDIT
 Check the current testing setup and report:
@@ -143,6 +240,21 @@ Check the current testing setup and report:
 8. Are there production smoke tests?
 9. Are there CI tests?
 10. Which critical flows are not tested?
+11. Are dead tabs/dead buttons tested?
+12. Are role-based UI and API permissions tested?
+13. Are negative/error cases tested?
+14. Are edge cases tested?
+15. Are failed network/API scenarios tested?
+16. Are reload/persistence flows tested?
+17. Are mobile/responsive flows tested?
+18. Are destructive actions tested safely?
+19. Are migration rollback cases tested?
+20. Are production deployment smoke tests defined?
+21. Are API contract tests present?
+22. Are integration failure tests present?
+23. Are background job tests present?
+24. Are upload/download tests present?
+25. Are enterprise-critical flows covered?
 
 Run safe test/build/lint/typecheck commands if available. If commands fail, report:
 - Command run
@@ -155,6 +267,11 @@ Also provide a missing test plan:
 - Critical tests required before push
 - Critical tests required before production deploy
 - Suggested manual smoke test checklist
+- Suggested dead UI/dead tab test checklist
+- Suggested role/permission regression checklist
+- Suggested edge-case checklist
+- Suggested API contract test checklist
+- Suggested enterprise release smoke checklist
 
 PHASE 6 — CODE REVIEW AUDIT
 Review the codebase like a senior staff engineer. Check:
@@ -178,6 +295,21 @@ Review the codebase like a senior staff engineer. Check:
 18. Missing types or weak typing.
 19. Any code smell that can cause future bugs.
 20. Any duplicated application flow that should be unified.
+21. Dead components that are imported nowhere.
+22. Routes/pages that are no longer reachable.
+23. API endpoints that are no longer used.
+24. Duplicate constants/enums/status mappings.
+25. Logic split across multiple files with conflicting behavior.
+26. Silent catch blocks or swallowed errors.
+27. Missing null/undefined handling.
+28. Risky assumptions in business logic.
+29. Overly permissive fallback logic.
+30. Code that looks temporary but is active in production.
+31. Poor module boundaries.
+32. Hidden side effects.
+33. Unsafe global state.
+34. Unclear ownership of business logic.
+35. Tight coupling that will make future changes risky.
 
 For every code quality issue, include:
 - File(s)
@@ -208,6 +340,31 @@ Audit the frontend fully:
 18. Duplicate pages or duplicate flows.
 19. Any feature visible in UI but not actually working.
 20. Any backend feature not exposed properly in UI.
+21. Dead tabs.
+22. Dead pages.
+23. Dead buttons.
+24. Dead menus.
+25. Dead dropdown options.
+26. Dead filters/search/sort controls.
+27. Dead table columns.
+28. Dead badges/counts.
+29. Dead modals/drawers/popovers.
+30. UI that displays mock/static/fake/random data.
+31. UI that does not persist changes.
+32. UI that does not refresh after save.
+33. UI that loses state incorrectly.
+34. UI that allows invalid user actions.
+35. UI that hides errors from the user.
+36. UI that does not reflect backend permission rules.
+37. UI that shows actions the user cannot actually perform.
+38. UI that hides actions the user should be able to perform.
+39. Broken empty/loading/error/success states.
+40. UI behavior that changes incorrectly after page refresh.
+41. UI that sends wrong payloads to API.
+42. UI that ignores backend response fields.
+43. UI that assumes data exists when it may be null/empty.
+44. UI that fails on long text/large lists.
+45. UI that is not ready for enterprise users.
 
 PHASE 8 — BACKEND AUDIT
 Audit the backend fully:
@@ -231,8 +388,411 @@ Audit the backend fully:
 18. Data ownership checks.
 19. Multi-tenant or role-specific data isolation.
 20. Missing backend wiring for frontend features.
+21. Routes that exist but are unused.
+22. Routes used by frontend but missing or broken.
+23. Controller methods that do not complete the intended business logic.
+24. Service functions that are never called.
+25. Missing transaction boundaries for multi-step writes.
+26. Missing idempotency for repeated requests.
+27. Missing validation for required fields.
+28. Missing validation for invalid enum/status transitions.
+29. Incorrect business-rule enforcement.
+30. Backend logic that accepts impossible states.
+31. Silent failures.
+32. Inconsistent status codes.
+33. Missing centralized error handler.
+34. Missing logs for critical failures.
+35. APIs that return success even when nothing changed.
+36. APIs that can partially update data and leave inconsistent state.
+37. APIs that work locally but may fail in production due to env/config/path assumptions.
+38. Unsafe fallback behavior.
+39. Missing rate limits for expensive routes.
+40. Missing rollback/retry behavior for external integrations.
+41. Missing ownership checks for read/update/delete.
+42. Missing service boundaries.
+43. Unclear background job ownership.
+44. Risky startup logic.
+45. Backend behavior that is not enterprise production-ready.
 
-PHASE 9 — DATABASE & MIGRATION AUDIT
+PHASE 9 — API AUDIT
+Perform a complete API-level audit for the full application.
+
+Audit all REST APIs, GraphQL APIs, RPC endpoints, webhooks, internal APIs, external APIs, upload/download APIs, background-job-trigger APIs, integration APIs, auth APIs, admin APIs, reporting APIs, export APIs, and health/status APIs.
+
+Check:
+
+1. API route inventory:
+   - List all detected API route groups.
+   - Identify public APIs.
+   - Identify protected APIs.
+   - Identify admin-only APIs.
+   - Identify internal-only APIs.
+   - Identify deprecated/unused APIs.
+   - Identify duplicate APIs.
+   - Identify frontend-used APIs.
+   - Identify backend-only APIs.
+   - Identify APIs that exist but are not documented.
+
+2. API authentication:
+   - Are all protected APIs actually protected?
+   - Are public APIs intentionally public?
+   - Are auth tokens/cookies validated correctly?
+   - Are expired/revoked tokens rejected?
+   - Are password/session changes invalidating old sessions where required?
+   - Are service-to-service APIs protected?
+   - Are webhook APIs protected with signatures/secrets?
+   - Are upload/download APIs protected?
+   - Are admin APIs protected?
+   - Are health/debug APIs safe?
+
+3. API authorization:
+   - Does every API enforce backend-side permissions?
+   - Are role/tier/admin checks correct?
+   - Are ownership checks enforced?
+   - Can one user access another user’s data?
+   - Can lower-privilege users mutate restricted data?
+   - Are frontend-only permission checks incorrectly trusted?
+   - Are admin APIs unreachable by non-admin users?
+   - Are bulk actions protected?
+   - Are export/report APIs protected?
+   - Are delete/update APIs protected from unauthorized access?
+
+4. API request validation:
+   - Are request bodies validated?
+   - Are query params validated?
+   - Are path params validated?
+   - Are enum/status values validated?
+   - Are file uploads validated?
+   - Are date/time fields validated?
+   - Are numeric limits validated?
+   - Are required fields enforced?
+   - Are unknown fields rejected or safely ignored?
+   - Are malformed payloads handled safely?
+   - Are arrays and bulk payloads bounded?
+   - Are long text/special characters handled?
+   - Are null/undefined values handled?
+   - Are invalid IDs handled?
+   - Are duplicate requests handled?
+
+5. API response correctness:
+   - Are response shapes consistent?
+   - Are status codes correct?
+   - Are success responses truthful?
+   - Are error responses consistent?
+   - Are sensitive fields excluded?
+   - Are internal stack traces hidden?
+   - Are pagination metadata and totals correct?
+   - Are empty responses handled consistently?
+   - Are frontend expectations matching backend responses?
+   - Are errors actionable?
+   - Are partial success responses clear?
+   - Are file/download responses safe?
+   - Are API responses backward compatible?
+   - Are response fields documented or predictable?
+   - Are timestamps/timezones consistent?
+
+6. API security:
+   - IDOR risks.
+   - SQL injection/ORM misuse.
+   - Mass assignment risks.
+   - Overposting risks.
+   - Missing rate limits.
+   - Missing CSRF protection where needed.
+   - CORS risks.
+   - XSS through API-returned content.
+   - Unsafe file URLs.
+   - Sensitive data exposure.
+   - Unsafe debug endpoints.
+   - Unsafe health/check/status endpoints.
+   - Unsafe error details.
+   - Webhook replay attack risk.
+   - API key leakage.
+   - Missing request size limits.
+   - Unsafe public exports.
+   - Missing audit logs for sensitive APIs.
+   - Unsafe admin APIs.
+   - Insecure direct object reference issues.
+
+7. API reliability:
+   - Timeout handling.
+   - Retry behavior.
+   - Idempotency for create/update/payment/webhook/job APIs.
+   - Duplicate request handling.
+   - Partial failure handling.
+   - Transaction boundaries.
+   - Race-condition protection.
+   - Concurrency safety.
+   - External dependency failure handling.
+   - Database failure handling.
+   - API does not return success before critical work is complete unless intentionally async.
+   - Safe behavior during server restart.
+   - Safe behavior when background jobs fail.
+   - Safe behavior when cache/queue is down.
+   - Safe behavior when upload storage is unavailable.
+   - Safe behavior when external integrations are down.
+
+8. API performance:
+   - N+1 query risk.
+   - Missing pagination.
+   - Large payload risk.
+   - Slow endpoints.
+   - Missing indexes for filtered/sorted endpoints.
+   - Expensive aggregation APIs.
+   - Unbounded search/filter APIs.
+   - Missing caching.
+   - Missing compression.
+   - Large file transfer risk.
+   - API endpoints that can overload production.
+   - Missing query limits.
+   - Missing debounce/throttle support for search-heavy endpoints.
+   - Inefficient joins/populates/includes.
+   - Reporting/dashboard endpoint scalability.
+
+9. API documentation:
+   - Are APIs documented?
+   - Are request/response examples available?
+   - Are error responses documented?
+   - Are auth requirements documented?
+   - Are role requirements documented?
+   - Are API versioning rules documented?
+   - Are webhook payloads documented?
+   - Are breaking changes documented?
+   - Are integration setup steps documented?
+   - Are env requirements documented?
+
+10. API frontend wiring:
+   - API exists but UI does not use it.
+   - UI calls API incorrectly.
+   - UI sends missing/wrong fields.
+   - API returns fields UI ignores.
+   - UI expects fields API does not return.
+   - UI handles only success path.
+   - UI hides API errors.
+   - UI does not refetch after API mutation.
+   - UI has stale state after API success.
+   - API behavior differs from UI labels/buttons.
+
+For every API issue, include:
+- API endpoint/method
+- File(s)
+- Issue type: Auth / Authorization / Validation / Response / Security / Reliability / Performance / Documentation / Wiring
+- Severity: Critical / High / Medium / Low
+- Risk
+- Required fix
+- Test case required
+- Whether it blocks push/deploy
+
+PHASE 10 — ENTERPRISE SOFTWARE AUDIT
+Audit the application like enterprise-grade software that must be reliable, maintainable, secure, scalable, auditable, observable, configurable, and production-ready.
+
+Check:
+
+1. Enterprise architecture:
+   - Is the app modular?
+   - Are concerns separated clearly?
+   - Are frontend, backend, database, jobs, integrations, APIs, storage, and config cleanly organized?
+   - Are business rules centralized?
+   - Are shared constants/enums centralized?
+   - Are duplicated flows avoided?
+   - Are deprecated modules removed or isolated?
+   - Is the app understandable for a new senior engineer?
+   - Are module boundaries clear?
+   - Is there a clear source of truth for critical data?
+
+2. Enterprise maintainability:
+   - Can features be changed safely?
+   - Are modules too tightly coupled?
+   - Are controllers/services/components too large?
+   - Are naming conventions consistent?
+   - Are files/folders organized predictably?
+   - Are comments useful and not misleading?
+   - Are feature boundaries clear?
+   - Are old flows and new flows mixed dangerously?
+   - Is technical debt documented?
+   - Is duplicated logic centralized?
+   - Are abstractions practical, not over-engineered?
+   - Are future changes likely to break unrelated modules?
+
+3. Enterprise security governance:
+   - Least-privilege access.
+   - Strong auth/session practices.
+   - Backend-enforced authorization.
+   - Secure secrets management.
+   - No committed secrets.
+   - Safe file handling.
+   - Safe audit logs.
+   - Secure production configuration.
+   - Rate limiting and abuse prevention.
+   - Sensitive-data protection.
+   - Admin actions controlled and auditable.
+   - Safe integration credentials.
+   - Secure API design.
+   - No frontend-only security.
+   - No unsafe debug mode in production.
+
+4. Enterprise compliance readiness:
+   - Is there audit logging for critical actions?
+   - Is there traceability for user/admin actions?
+   - Are data changes attributable to users?
+   - Are important records timestamped?
+   - Are delete/update actions recoverable or auditable?
+   - Are exports/downloads controlled?
+   - Is sensitive data masked where needed?
+   - Is personal/confidential data protected?
+   - Are backups and restore flows documented?
+   - Are data retention/delete policies considered?
+   - Are permission changes auditable?
+   - Are login/security events logged?
+   - Are high-risk actions reviewable?
+   - Are compliance-sensitive settings protected?
+   - Are reports/exports safe?
+
+5. Enterprise reliability:
+   - Does the app fail gracefully?
+   - Are critical flows transactional?
+   - Are background jobs safe on multiple replicas?
+   - Are retries/idempotency handled?
+   - Are partial failures recoverable?
+   - Are startup failures detectable?
+   - Are health checks real?
+   - Are logs enough to debug production issues?
+   - Are external integrations resilient?
+   - Are file/storage failures handled?
+   - Is database downtime handled safely?
+   - Are queues/cron jobs safe?
+   - Are duplicate jobs prevented?
+   - Are critical actions recoverable?
+   - Are rollback paths clear?
+
+6. Enterprise scalability:
+   - Can the app handle growing users/data?
+   - Are list/table/report APIs paginated?
+   - Are indexes in place?
+   - Are heavy jobs moved out of request cycle?
+   - Are large frontend lists virtualized or optimized?
+   - Are sockets/realtime features scalable?
+   - Are rate limits and quotas present?
+   - Are expensive dashboards/reporting queries optimized?
+   - Are file uploads/downloads scalable?
+   - Are background workers scalable?
+   - Are database connections managed?
+   - Is caching used where appropriate?
+   - Are API payloads controlled?
+   - Is frontend bundle size controlled?
+   - Can the app scale horizontally?
+
+7. Enterprise observability:
+   - Are errors logged with context?
+   - Are logs structured enough?
+   - Are critical events logged?
+   - Are auth failures logged?
+   - Are job failures logged?
+   - Are integration failures logged?
+   - Are database failures logged?
+   - Are production issues diagnosable from logs?
+   - Are health/readiness checks meaningful?
+   - Are request IDs/correlation IDs used?
+   - Are important business events traceable?
+   - Are failed user actions diagnosable?
+   - Are silent failures eliminated?
+   - Are logs safe from sensitive data leakage?
+   - Are monitoring hooks possible?
+
+8. Enterprise configuration:
+   - Are environment variables documented?
+   - Are required vs optional env vars clear?
+   - Are dev/staging/prod configs separated?
+   - Are unsafe defaults avoided in production?
+   - Are mock/test modes disabled in production?
+   - Are feature flags documented?
+   - Are secrets loaded from safe sources?
+   - Are config changes persistent and auditable?
+   - Are missing env vars detected at startup?
+   - Are wrong env values handled safely?
+   - Are local-only assumptions avoided?
+   - Are cloud/local storage differences documented?
+   - Are integration modes documented?
+   - Are dangerous flags protected?
+   - Is production config validated?
+
+9. Enterprise data safety:
+   - No accidental production data overwrite.
+   - No unsafe seed scripts.
+   - No destructive migrations without backup.
+   - Backfill requirements identified.
+   - Rollback requirements identified.
+   - Data ownership and isolation enforced.
+   - No duplicate sources of truth.
+   - No orphaned records.
+   - No silent data corruption risk.
+   - Old production records handled safely.
+   - Data consistency maintained across flows.
+   - Multi-step writes use transactions.
+   - Deletes are controlled.
+   - Imports/exports are safe.
+   - Backup/restore is considered.
+
+10. Enterprise release readiness:
+   - CI/CD catches real failures.
+   - Builds are reproducible.
+   - Lockfiles are in sync.
+   - Docker/deploy config is production-safe.
+   - Migrations are controlled.
+   - Manual approval gates exist.
+   - Rollback plan exists.
+   - Smoke test plan exists.
+   - Production deploy status is clear.
+   - Known risks are documented before release.
+   - Release order is safe.
+   - Deployment does not require undocumented manual steps.
+   - App can start after deploy.
+   - App can recover after deploy failure.
+   - Monitoring/logs support release validation.
+
+11. Enterprise UX readiness:
+   - UI is consistent across modules.
+   - Role-specific UI is correct.
+   - Dead tabs/dead UI are removed or completed.
+   - Empty/loading/error states are complete.
+   - Critical actions are confirmed.
+   - Error messages are useful.
+   - Mobile/responsive behavior is acceptable.
+   - Accessibility basics are respected.
+   - UI labels and navigation are clear.
+   - Enterprise users can understand flows.
+   - Forms are safe and predictable.
+   - Tables/lists scale visually.
+   - Navigation does not expose broken modules.
+   - Statuses/labels are consistent.
+   - UI does not mislead users.
+
+12. Enterprise testing maturity:
+   - Critical flows have tests.
+   - Auth/RBAC has tests.
+   - API contracts have tests.
+   - Database/migration behavior has tests.
+   - Integration failures have tests.
+   - UI regressions have tests or checklist.
+   - E2E smoke tests exist.
+   - Production smoke checklist exists.
+   - Manual QA checklist exists.
+   - Edge cases are tested.
+   - Permission matrix is tested.
+   - Performance risks are tested.
+   - Upload/download is tested.
+   - Background jobs are tested.
+   - Error handling is tested.
+
+For every enterprise issue, include:
+- Category
+- File(s)/module(s)
+- Enterprise risk
+- Business impact
+- Required fix
+- Priority: P0 / P1 / P2 / P3
+- Whether it blocks production deploy
+
+PHASE 11 — DATABASE & MIGRATION AUDIT
 Audit database safety:
 1. Current schema/models.
 2. Migration history.
@@ -252,14 +812,34 @@ Audit database safety:
 16. Data corruption risk.
 17. Any script that can alter production data.
 18. Whether local schema and production schema may drift.
+19. Database fields that are never read.
+20. Database fields that are written but never displayed.
+21. Database fields displayed but never updated.
+22. Duplicate sources of truth.
+23. Missing uniqueness constraints.
+24. Missing ownership/tenant constraints.
+25. Invalid status/state combinations.
+26. Data that can become orphaned.
+27. Migration required for currently broken logic.
+28. Backfill required for old production records.
+29. Seed data that can overwrite production behavior.
+30. Schema mismatch with frontend/backend expectations.
+31. Missing indexes for API filters/search/sorts.
+32. Missing constraints for business rules.
+33. Unsafe enum/status changes.
+34. Risky default values.
+35. Data integrity gaps across related tables.
 
 Return clearly:
 - Database Migration Required: YES / NO / UNSURE
 - Migration Risk: Low / Medium / High / Critical
 - Backup Required Before Deploy: YES / NO
 - Data Loss Risk: YES / NO / UNSURE
+- Data Corruption Risk: YES / NO / UNSURE
+- Backfill Required: YES / NO / UNSURE
+- Production DB Compatibility: SAFE / SAFE AFTER FIXES / NOT SAFE / UNSURE
 
-PHASE 10 — DEVOPS / CI/CD / DEPLOYMENT AUDIT
+PHASE 12 — DEVOPS / CI/CD / DEPLOYMENT AUDIT
 Audit deployment readiness:
 1. GitHub Actions / CI pipeline.
 2. Dockerfiles.
@@ -281,8 +861,23 @@ Audit deployment readiness:
 18. Reverse proxy/Nginx assumptions.
 19. Production deploy risk.
 20. Manual approval gates.
+21. Whether CI can catch broken UI/API/test issues.
+22. Whether production deploy can succeed with current env requirements.
+23. Whether deployment can start app with missing optional services.
+24. Whether failed migrations can leave app unusable.
+25. Whether logs are sufficient to debug production issues.
+26. Whether health check is real or fake.
+27. Whether rollback is documented and safe.
+28. Whether build artifacts or generated files are accidentally committed.
+29. Whether secrets or local files are included.
+30. Whether current deployment process can hide broken functionality.
+31. Whether app startup validates required config.
+32. Whether dependency versions are locked correctly.
+33. Whether CI separates build/test/deploy stages.
+34. Whether deployment supports safe manual approval.
+35. Whether production deploy can be rolled back without data loss.
 
-PHASE 11 — PERFORMANCE AUDIT
+PHASE 13 — PERFORMANCE AUDIT
 Audit performance and scalability:
 1. Slow queries.
 2. Missing DB indexes.
@@ -299,8 +894,23 @@ Audit performance and scalability:
 13. File upload/download performance.
 14. Dashboard/table/list performance.
 15. Production load risks.
+16. Unnecessary API calls.
+17. Refetch storms.
+18. Expensive calculations in render.
+19. Missing virtualization for large lists/tables.
+20. Blocking synchronous work.
+21. Missing debounce/throttle for search/filter.
+22. Inefficient permission checks.
+23. Inefficient report/dashboard queries.
+24. Large logs or memory growth risk.
+25. Slow startup/build risk.
+26. Inefficient API aggregation.
+27. Missing queueing for heavy work.
+28. Large file handling risk.
+29. Inefficient background jobs.
+30. Scalability limits for enterprise usage.
 
-PHASE 12 — APPLICATION FLOW & DUPLICATION AUDIT
+PHASE 14 — APPLICATION FLOW & DUPLICATION AUDIT
 Find duplicate or conflicting flows:
 1. Same feature implemented in multiple places.
 2. Two pages doing almost the same thing.
@@ -317,8 +927,23 @@ Find duplicate or conflicting flows:
 13. UI exposing old flow.
 14. Backend still supporting unused old flow.
 15. Any place where user can complete the same action through inconsistent paths.
+16. Duplicate navigation entries.
+17. Duplicate tabs that lead to same or conflicting features.
+18. Duplicate business rules implemented differently.
+19. Duplicate save/update flows with different validation.
+20. Duplicate role checks that can drift.
+21. Duplicate notification/event flows.
+22. Duplicate upload/download flows.
+23. Duplicate reporting/export flows.
+24. Duplicate configuration/settings flows.
+25. Duplicate data transformation logic.
+26. Duplicate API clients/services.
+27. Duplicate DB write paths.
+28. Duplicate background job triggers.
+29. Duplicate integration handlers.
+30. Duplicate UI state handling.
 
-PHASE 13 — FEATURE COMPLETENESS / MISSING WIRING AUDIT
+PHASE 15 — FEATURE COMPLETENESS / MISSING WIRING AUDIT
 Detect incomplete implementation:
 1. UI exists but API missing.
 2. API exists but UI missing.
@@ -335,8 +960,217 @@ Detect incomplete implementation:
 13. Feature works locally but may fail in production.
 14. Feature works for one role but not another.
 15. Feature has no tests.
+16. Tab exists but content is placeholder or incomplete.
+17. Menu item exists but route is missing/broken.
+18. Route exists but page is blank/broken.
+19. Page exists but is not reachable from navigation.
+20. API field exists but frontend payload does not include it.
+21. Frontend sends field but backend ignores it.
+22. Backend saves field but frontend never displays it.
+23. Backend returns field but frontend never consumes it.
+24. Config option exists but does not affect behavior.
+25. Setting exists but is not persisted.
+26. Feature flag exists but is not respected.
+27. Notification/event is emitted but no listener handles it.
+28. Listener exists but event is never emitted.
+29. Upload path exists but download/view path is missing.
+30. Error handling exists in backend but frontend does not show it.
+31. API exists but has no tests and no documentation.
+32. Enterprise-critical feature exists but has no audit trail.
+33. Backend job exists but has no UI visibility/log.
+34. UI status exists but backend status transition missing.
+35. Database supports feature but app flow never completes it.
 
-PHASE 14 — FINAL SCORECARD
+PHASE 16 — DEAD TAB / DEAD UI / BROKEN FUNCTIONALITY AUDIT
+Perform a dedicated dead-feature audit.
+
+Find and report:
+1. Dead tabs.
+2. Dead pages.
+3. Dead routes.
+4. Dead sidebar items.
+5. Dead header buttons.
+6. Dead dropdown actions.
+7. Dead filters.
+8. Dead search boxes.
+9. Dead sort controls.
+10. Dead table columns.
+11. Dead badges/counts.
+12. Dead modals/drawers.
+13. Dead forms.
+14. Dead submit buttons.
+15. Dead settings toggles.
+16. Dead feature flags.
+17. Dead API routes.
+18. Dead backend services.
+19. Dead database fields.
+20. Dead integrations.
+21. UI showing mock/static/fake data.
+22. UI showing hardcoded placeholder data as real data.
+23. UI that opens but cannot complete any real action.
+24. UI action that gives success but does not change data.
+25. UI action that changes frontend state only but not backend.
+26. UI action that works but breaks after refresh.
+27. Feature that has no tests and no reliable proof it works.
+28. Feature that exists in code but is unreachable.
+29. Feature that exists in navigation but has no working implementation.
+30. Feature that has partial implementation and should be hidden until completed.
+31. Enterprise feature that exists but is not production-ready.
+32. API endpoint that exists but no consumer uses.
+33. UI route that exists but no navigation reaches.
+34. Setting/toggle that exists but does not affect behavior.
+35. Report/dashboard metric that is fake, random, or not backed by real data.
+
+For each dead/broken item, include:
+- Location
+- Type: Dead Tab / Dead UI / Broken Functionality / Missing Wiring / Placeholder / Fake Data / Unreachable Code / Dead API / Dead Config / Dead Integration
+- Evidence from code
+- User impact
+- Required fix
+- Whether to remove, hide, wire, complete, or document it
+- Priority: P0 / P1 / P2 / P3
+
+PHASE 17 — LOGIC ANALYZER AUDIT
+Audit business logic deeply.
+
+Check:
+1. Incorrect if/else conditions.
+2. Incorrect role/permission logic.
+3. Incorrect status transitions.
+4. Incorrect date/time logic.
+5. Incorrect ownership rules.
+6. Incorrect approval/rejection logic.
+7. Incorrect assignment/visibility logic.
+8. Incorrect calculations.
+9. Incorrect filtering/search/sort logic.
+10. Incorrect dashboard/report numbers.
+11. Logic that works only for happy path.
+12. Logic that fails for null/empty/missing data.
+13. Logic that fails for old production records.
+14. Logic that fails for multiple users/roles.
+15. Logic that fails for concurrent updates.
+16. Logic that creates inconsistent state.
+17. Logic that allows invalid state transitions.
+18. Logic that trusts frontend data too much.
+19. Logic duplicated differently across frontend/backend.
+20. Logic with unsafe fallback behavior.
+21. Logic that treats local/dev data differently from production data.
+22. Logic that returns success even when expected operation failed.
+23. Logic that silently skips important operations.
+24. Logic that can cause stale UI or stale database data.
+25. Logic that can break after page refresh or app restart.
+26. Logic that does not match UI labels/promises.
+27. Logic that does not match documented business rules.
+28. Logic that fails around timezone/date boundaries.
+29. Logic that fails when records are deleted/archived.
+30. Logic that is not safe for enterprise multi-user usage.
+
+For each logic issue, include:
+- Business rule expected
+- Current logic behavior
+- Why it is wrong/risky
+- File(s)
+- Required correction
+- Test cases needed
+- Priority: P0 / P1 / P2 / P3
+
+PHASE 18 — ERROR HANDLING & RESILIENCE AUDIT
+Audit error handling across the app.
+
+Check:
+1. Frontend API failure handling.
+2. Backend try/catch behavior.
+3. Centralized error middleware.
+4. Error response consistency.
+5. User-facing error messages.
+6. Developer/internal error logs.
+7. Silent failures.
+8. Swallowed exceptions.
+9. Promise rejection handling.
+10. Network failure handling.
+11. Timeout handling.
+12. Retry behavior.
+13. External API failure handling.
+14. Database failure handling.
+15. File upload failure handling.
+16. Permission denied behavior.
+17. Validation error behavior.
+18. Conflict/race-condition behavior.
+19. Partial failure handling.
+20. Rollback behavior.
+21. Toast/alert accuracy.
+22. Error state UI.
+23. Loading stuck forever risk.
+24. Form submit double-click handling.
+25. App crash/error boundary coverage.
+26. API error mapping to UI messages.
+27. Background job failure visibility.
+28. Webhook failure handling.
+29. Integration retry/alert behavior.
+30. Production log usefulness.
+
+For each issue, include:
+- Error scenario
+- Current behavior
+- Expected behavior
+- File(s)
+- Required fix
+- User impact
+- Priority: P0 / P1 / P2 / P3
+
+PHASE 19 — EDGE CASE AUDIT
+Audit edge cases across the full application.
+
+Check:
+1. Empty database.
+2. Very large database.
+3. Slow network.
+4. API timeout.
+5. User refreshes during save.
+6. User double-clicks submit.
+7. User opens multiple tabs.
+8. User loses permission while using page.
+9. User logs out during request.
+10. Token expires during request.
+11. Record deleted while another user edits it.
+12. Concurrent updates.
+13. Duplicate submissions.
+14. Missing optional data.
+15. Null/undefined fields.
+16. Old production records missing new fields.
+17. Invalid enum/status values.
+18. Long text input.
+19. Special characters/HTML input.
+20. File too large/wrong type.
+21. Mobile small screen.
+22. Browser back/forward navigation.
+23. Page refresh after modal action.
+24. Server restart during operation.
+25. Background job failure.
+26. External service down.
+27. Environment variable missing.
+28. Database connection temporarily unavailable.
+29. User has no assigned records/data.
+30. User has maximum/large assigned records/data.
+31. API returns partial data.
+32. API returns malformed/unexpected data.
+33. Upload storage unavailable.
+34. Email/SMS/payment/integration service unavailable.
+35. Production data contains legacy values.
+36. Timezone/daylight/date-boundary issues.
+37. User changes role while logged in.
+38. User switches account/session.
+39. Bulk operation partially fails.
+40. Deploy happens while user is mid-flow.
+
+For each important edge case, include:
+- Edge case
+- Current support: PASS / FAIL / UNSURE
+- Risk
+- Required fix/test
+- Priority
+
+PHASE 20 — FINAL SCORECARD
 Give a score out of 10 for each category:
 
 1. Security Score: __ / 10
@@ -345,16 +1179,30 @@ Give a score out of 10 for each category:
 4. Code Quality Score: __ / 10
 5. Frontend Quality Score: __ / 10
 6. Backend Quality Score: __ / 10
-7. Database / Migration Safety Score: __ / 10
-8. DevOps / Deployment Score: __ / 10
-9. Performance Score: __ / 10
-10. Maintainability Score: __ / 10
-11. Production Readiness Score: __ / 10
-12. Overall Application Score: __ / 10
+7. API Quality Score: __ / 10
+8. API Security Score: __ / 10
+9. API Reliability Score: __ / 10
+10. Database / Migration Safety Score: __ / 10
+11. DevOps / Deployment Score: __ / 10
+12. Performance Score: __ / 10
+13. Maintainability Score: __ / 10
+14. Production Readiness Score: __ / 10
+15. Dead UI / Dead Tab Score: __ / 10
+16. Logic Correctness Score: __ / 10
+17. Error Handling Score: __ / 10
+18. Edge Case Coverage Score: __ / 10
+19. Missing Wiring Score: __ / 10
+20. Enterprise Architecture Score: __ / 10
+21. Enterprise Maintainability Score: __ / 10
+22. Enterprise Reliability Score: __ / 10
+23. Enterprise Compliance Readiness Score: __ / 10
+24. Enterprise Observability Score: __ / 10
+25. Enterprise Release Readiness Score: __ / 10
+26. Overall Application Score: __ / 10
 
 Use strict scoring. Do not inflate the score.
 
-PHASE 15 — RELEASE DECISION
+PHASE 21 — RELEASE DECISION
 Return this exact release decision format:
 
 Push Status:
@@ -369,6 +1217,9 @@ Database Migration Required:
 Data Loss Risk:
 - YES / NO / UNSURE
 
+Data Corruption Risk:
+- YES / NO / UNSURE
+
 Security Risk:
 - LOW / MEDIUM / HIGH / CRITICAL
 
@@ -378,10 +1229,34 @@ QA Risk:
 Testing Risk:
 - LOW / MEDIUM / HIGH / CRITICAL
 
+API Risk:
+- LOW / MEDIUM / HIGH / CRITICAL
+
+Dead UI / Dead Tab Risk:
+- LOW / MEDIUM / HIGH / CRITICAL
+
+Logic Risk:
+- LOW / MEDIUM / HIGH / CRITICAL
+
+Error Handling Risk:
+- LOW / MEDIUM / HIGH / CRITICAL
+
+Edge Case Risk:
+- LOW / MEDIUM / HIGH / CRITICAL
+
+Missing Wiring Risk:
+- LOW / MEDIUM / HIGH / CRITICAL
+
+Enterprise Readiness Risk:
+- LOW / MEDIUM / HIGH / CRITICAL
+
+Enterprise Production Readiness:
+- READY / READY AFTER FIXES / NOT READY
+
 Overall Risk:
 - LOW / MEDIUM / HIGH / CRITICAL
 
-PHASE 16 — PRIORITIZED FIX PLAN
+PHASE 22 — PRIORITIZED FIX PLAN
 Group all findings into:
 
 P0 — Critical blockers:
@@ -398,14 +1273,52 @@ Cleanup/improvement.
 
 For each item, include:
 - Issue
+- Category: Security / QA / Code Quality / Frontend / Backend / API / Database / DevOps / Performance / Dead UI / Logic / Error Handling / Edge Case / Missing Wiring / Enterprise
 - File(s)
 - Risk
 - Required fix
 - Estimated difficulty: Easy / Medium / Hard
 - Whether it requires DB migration
 - Whether it requires manual testing
+- Whether it requires automated test coverage
+- Whether it blocks push
+- Whether it blocks production deploy
+- Whether it affects enterprise readiness
 
-PHASE 17 — FINAL APPROVAL QUESTION
+PHASE 23 — FIX READINESS PLAN
+Before asking for approval, provide a fix readiness plan:
+
+1. Which P0/P1 issues should be fixed first.
+2. Safe order of fixes.
+3. Whether any DB migration is needed.
+4. Whether backup is needed before fix/deploy.
+5. Which files are likely to change.
+6. Which tests must be run after fixes.
+7. Which manual QA flows must be checked.
+8. Which fixes are risky and need special approval.
+9. Which dead UI should be removed vs hidden vs completed.
+10. Which missing wiring should be connected first.
+11. Which API fixes should be prioritized.
+12. Which enterprise-readiness gaps should block production.
+13. Which security fixes must happen before any push.
+14. Which database changes need migration/backfill.
+15. Which deployment changes need manual approval.
+
+PHASE 24 — COMMANDS AND EVIDENCE
+Report:
+
+1. Commands run.
+2. Commands not run and why.
+3. Files reviewed.
+4. Files not reviewed and why.
+5. Tests run.
+6. Tests failed.
+7. Tests missing.
+8. Evidence for major findings.
+9. Areas marked UNSURE.
+10. What must be manually verified.
+
+PHASE 25 — FINAL APPROVAL QUESTION
 At the very end, ask me:
 
 “Do you want me to fix all P0/P1 issues now? I will not modify files, run migrations, push code, deploy, or run any destructive command until you explicitly approve.”
@@ -422,16 +1335,24 @@ Use this structure:
 7. Code Review Report
 8. Frontend Audit Report
 9. Backend Audit Report
-10. Database & Migration Audit Report
-11. DevOps / CI/CD Audit Report
-12. Performance Audit Report
-13. Duplication & Application Flow Audit
-14. Missing Wiring / Incomplete Feature Audit
-15. Scorecard
-16. Release Decision
-17. P0/P1/P2/P3 Fix Plan
-18. Commands Run
-19. Files Reviewed
-20. Final Approval Question
+10. API Audit Report
+11. Enterprise Software Audit Report
+12. Database & Migration Audit Report
+13. DevOps / CI/CD Audit Report
+14. Performance Audit Report
+15. Duplication & Application Flow Audit
+16. Missing Wiring / Incomplete Feature Audit
+17. Dead Tab / Dead UI / Broken Functionality Audit
+18. Logic Analyzer Audit
+19. Error Handling & Resilience Audit
+20. Edge Case Audit
+21. Scorecard
+22. Release Decision
+23. P0/P1/P2/P3 Fix Plan
+24. Fix Readiness Plan
+25. Commands and Evidence
+26. Commands Run
+27. Files Reviewed
+28. Final Approval Question
 
-Be strict, detailed, and honest. If you are unsure about something, say UNSURE and explain what must be checked. Do not assume production safety without evidence.
+Be strict, detailed, and honest. If you are unsure about something, say UNSURE and explain what must be checked. Do not assume production safety without evidence. Do not skip API issues, enterprise-level risks, dead tabs, dead UI, broken functionality, missing wiring, logic issues, error handling gaps, edge cases, security risks, database risks, or deployment risks.
