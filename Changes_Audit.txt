@@ -1,1 +1,505 @@
 
+Act as a 20+ year experienced full-stack application auditor, senior code reviewer, security engineer, QA lead, DevOps reviewer, database architect, UI/UX quality checker, and production release gatekeeper.
+
+I want you to perform a CHANGE-SPECIFIC PRE-PUSH AUDIT for the current code changes before I push them to GitHub.
+
+IMPORTANT:
+This is not a full application audit. Focus deeply on the files, modules, flows, APIs, database models, UI components, and deployment behavior affected by the current changes.
+
+DO NOT modify code yet.
+DO NOT push code.
+DO NOT commit code.
+DO NOT run destructive commands.
+DO NOT run production migrations.
+DO NOT alter, delete, reset, seed, or overwrite any data.
+If any command can change data, stop and ask for approval first.
+
+Your job is to audit the current Git changes and tell me whether these specific changes are safe to push.
+
+PHASE 1 — IDENTIFY CURRENT CHANGES
+
+First inspect the current Git state using safe read-only commands such as:
+
+- git status
+- git diff --stat
+- git diff
+- git diff --cached
+- git log --oneline -5
+
+Then summarize:
+
+1. Files changed.
+2. Files added.
+3. Files deleted.
+4. Files renamed.
+5. Config files changed.
+6. Package/dependency files changed.
+7. Database/schema/migration files changed.
+8. CI/CD/deployment files changed.
+9. Environment/example env files changed.
+10. Tests added/updated/missing.
+
+If there are staged and unstaged changes, audit both separately.
+
+PHASE 2 — CHANGE INTENT UNDERSTANDING
+
+Explain what the current changes appear to be trying to do.
+
+Return:
+
+1. Main purpose of the change.
+2. Features/modules affected.
+3. Frontend areas affected.
+4. Backend areas affected.
+5. Database areas affected.
+6. Auth/security areas affected.
+7. Deployment/build areas affected.
+8. Any unclear or suspicious change.
+9. Any unrelated file changed accidentally.
+10. Any file that should not be pushed.
+
+PHASE 3 — AFFECTED FLOW AUDIT
+
+For every affected feature or module, trace the full flow:
+
+1. UI/component entry point.
+2. Form/button/action involved.
+3. Frontend state changes.
+4. API request made.
+5. Backend route hit.
+6. Controller/service logic.
+7. Database read/write.
+8. Response back to frontend.
+9. UI refresh/update behavior.
+10. Error/loading/empty states.
+
+Report any missing wiring such as:
+
+- UI exists but API is missing.
+- API exists but frontend is not using it.
+- Backend saves data but UI does not show it.
+- UI sends field but backend ignores it.
+- Backend returns field but UI ignores it.
+- Form field exists but does not persist.
+- Validation exists only frontend but not backend.
+- Permission exists in UI but not backend.
+- Backend permission exists but UI visibility is wrong.
+
+PHASE 4 — SECURITY IMPACT AUDIT
+
+Check whether the current changes introduce or affect:
+
+1. Auth/session logic.
+2. JWT/cookie/localStorage behavior.
+3. Role/permission checks.
+4. Admin/user access boundaries.
+5. API route protection.
+6. Data ownership checks.
+7. Privilege escalation risk.
+8. XSS risk.
+9. CSRF risk.
+10. SQL injection / ORM misuse.
+11. File upload/download exposure.
+12. Secrets or .env leakage.
+13. Webhook/API key exposure.
+14. CORS/security headers.
+15. Sensitive data logging.
+16. Rate limiting.
+17. Public route exposure.
+18. Frontend-only security checks.
+19. Backend authorization bypass.
+20. Production-only security risk.
+
+For every security finding, include:
+
+- Severity: Critical / High / Medium / Low
+- File(s)
+- Risk
+- Exploit scenario
+- Required fix
+- Whether it blocks push
+
+PHASE 5 — QA / FUNCTIONAL IMPACT AUDIT
+
+Audit only the changed/affected functionality like a senior QA lead.
+
+Check:
+
+1. Does the changed feature work end-to-end?
+2. Are all expected actions wired?
+3. Are save/update/delete flows correct?
+4. Are loading states handled?
+5. Are error states handled?
+6. Are empty states handled?
+7. Are success messages accurate?
+8. Are validation messages accurate?
+9. Are forms reset correctly?
+10. Are modals/dialogs closing correctly?
+11. Does data refresh after mutation?
+12. Can stale data appear?
+13. Are edge cases handled?
+14. Does it work for all relevant user roles?
+15. Does it work after page refresh?
+16. Does it work in production-like environment?
+17. Does it break existing flows?
+18. Does it introduce duplicate/conflicting behavior?
+19. Does it handle slow API/network failure?
+20. Is manual testing required before push?
+
+For each QA issue, include:
+
+- Feature/module
+- Expected behavior
+- Actual risk/bug
+- Steps to test
+- Severity
+- Blocking status
+
+PHASE 6 — CODE REVIEW AUDIT
+
+Review the changed code like a senior staff engineer.
+
+Check:
+
+1. Code correctness.
+2. Clean architecture.
+3. Duplicate code.
+4. Dead code.
+5. Unused imports.
+6. Unused dependencies.
+7. Bad naming.
+8. Hardcoded values.
+9. Console logs/debug code.
+10. TODO/FIXME left behind.
+11. Large functions/components.
+12. Poor separation of concerns.
+13. Missing types or weak typing.
+14. Inconsistent patterns.
+15. Error handling quality.
+16. API response consistency.
+17. Validation consistency.
+18. Race conditions.
+19. Transaction safety.
+20. Maintainability risk.
+
+For every issue, include:
+
+- File(s)
+- Problem
+- Why it matters
+- Suggested fix
+- Priority: P0 / P1 / P2 / P3
+
+PHASE 7 — DATABASE & MIGRATION IMPACT AUDIT
+
+Check whether the current changes affect the database.
+
+Inspect:
+
+1. Schema/model changes.
+2. Migration files.
+3. ORM generated files.
+4. Seed scripts.
+5. SQL scripts.
+6. Enum changes.
+7. New columns.
+8. Removed columns.
+9. Renamed columns.
+10. Changed relations.
+11. Index changes.
+12. Constraint changes.
+13. Cascade delete behavior.
+14. Data backfill requirement.
+15. Production data compatibility.
+16. Local vs production schema drift risk.
+17. Destructive migration risk.
+18. Rollback requirement.
+19. Backup requirement.
+20. Whether migration must be run before deploy.
+
+Return clearly:
+
+Database Migration Required:
+YES / NO / UNSURE
+
+Migration File Present:
+YES / NO / NOT REQUIRED
+
+Data Backfill Required:
+YES / NO / UNSURE
+
+Data Loss Risk:
+YES / NO / UNSURE
+
+Backup Required Before Deploy:
+YES / NO / UNSURE
+
+Production DB Risk:
+LOW / MEDIUM / HIGH / CRITICAL
+
+If migration is required, explain:
+- Why it is required.
+- Which files prove it.
+- Whether migration is safe.
+- Whether old production data can break.
+- Whether rollback is possible.
+
+PHASE 8 — FRONTEND IMPACT AUDIT
+
+If frontend files changed, audit:
+
+1. UI correctness.
+2. Component behavior.
+3. State handling.
+4. Props/data flow.
+5. API integration.
+6. Form validation.
+7. Save/cancel behavior.
+8. Modal/dropdown/popover behavior.
+9. Table/list behavior.
+10. Loading/error/empty states.
+11. Responsive/mobile behavior.
+12. Accessibility.
+13. Dark/light theme consistency.
+14. Broken icons/labels.
+15. Bad user experience.
+16. Route protection.
+17. Role-based visibility.
+18. Refresh behavior.
+19. Cache/refetch behavior.
+20. Visual regression risk.
+
+If screenshots were provided in the conversation or issue context, compare the intended behavior against the implementation.
+
+PHASE 9 — BACKEND IMPACT AUDIT
+
+If backend files changed, audit:
+
+1. Route correctness.
+2. Controller logic.
+3. Service logic.
+4. Middleware behavior.
+5. Auth/permission enforcement.
+6. Input validation.
+7. Error handling.
+8. Transaction usage.
+9. Race conditions.
+10. Query efficiency.
+11. Pagination/filtering.
+12. Logging.
+13. Rate limiting.
+14. Background jobs.
+15. Webhooks/integrations.
+16. File handling.
+17. API response shape.
+18. Backward compatibility.
+19. Existing client compatibility.
+20. Production runtime risk.
+
+PHASE 10 — DEVOPS / BUILD / DEPLOYMENT IMPACT AUDIT
+
+If any dependency, config, Docker, CI/CD, build, or env file changed, audit:
+
+1. package.json changes.
+2. lockfile sync.
+3. Build command impact.
+4. Start command impact.
+5. Dockerfile impact.
+6. Docker Compose impact.
+7. GitHub Actions impact.
+8. Environment variable changes.
+9. Production secret requirements.
+10. Missing env examples.
+11. Build artifact risk.
+12. Runtime compatibility.
+13. Node/version compatibility.
+14. Deployment order.
+15. Health check impact.
+16. Rollback impact.
+17. Manual approval required.
+18. Whether deployment can fail.
+19. Whether production can start after deploy.
+20. Whether current GitHub push can break CI.
+
+PHASE 11 — TESTING IMPACT AUDIT
+
+Check tests related to the changed code.
+
+Report:
+
+1. Existing tests affected.
+2. Tests added.
+3. Tests updated.
+4. Tests missing.
+5. Unit tests required.
+6. Integration tests required.
+7. E2E tests required.
+8. Manual tests required.
+9. Regression tests required.
+10. Production smoke tests required.
+
+Run safe commands if available:
+
+- lint
+- typecheck
+- test
+- build
+
+Only run commands that are safe and do not mutate production data.
+
+For each command, report:
+
+- Command
+- Passed/failed/not run
+- Failure reason
+- Whether failure blocks push
+
+PHASE 12 — REGRESSION RISK AUDIT
+
+Check whether these changes can break existing behavior.
+
+Look for:
+
+1. Changed shared components.
+2. Changed shared utilities.
+3. Changed API response shape.
+4. Changed database model.
+5. Changed validation schema.
+6. Changed auth/permission helper.
+7. Changed layout/sidebar/header.
+8. Changed global CSS/theme.
+9. Changed environment config.
+10. Changed package/dependency.
+11. Changed route names.
+12. Changed status/enum values.
+13. Changed background jobs.
+14. Changed build/deploy scripts.
+15. Changed common hooks/services.
+
+For every regression risk, include:
+
+- Existing flow that may break
+- Why it may break
+- How to test it
+- Severity
+- Whether it blocks push
+
+PHASE 13 — UNRELATED / ACCIDENTAL CHANGE AUDIT
+
+Identify anything suspicious:
+
+1. Files changed that do not belong to this feature.
+2. Formatting-only changes mixed with logic changes.
+3. Debug code accidentally committed.
+4. Local-only files accidentally included.
+5. Env/secrets accidentally included.
+6. Generated files that should not be committed.
+7. Build artifacts accidentally included.
+8. Logs/temp files accidentally included.
+9. Package lock changed unexpectedly.
+10. Migration generated but not needed.
+11. Test snapshots changed unexpectedly.
+12. Large file accidentally added.
+
+Return a section called:
+
+“Files That Need Attention Before Push”
+
+PHASE 14 — CHANGE-SPECIFIC SCORECARD
+
+Give strict scores only for this change:
+
+1. Change Correctness Score: __ / 10
+2. Security Safety Score: __ / 10
+3. QA / Functional Score: __ / 10
+4. Code Quality Score: __ / 10
+5. Frontend Impact Score: __ / 10 or N/A
+6. Backend Impact Score: __ / 10 or N/A
+7. Database Safety Score: __ / 10 or N/A
+8. Deployment Safety Score: __ / 10
+9. Testing Confidence Score: __ / 10
+10. Regression Risk Score: __ / 10
+11. Overall Push Readiness Score: __ / 10
+
+Use strict scoring. Do not inflate the score.
+
+PHASE 15 — FINAL PUSH DECISION
+
+Return this exact decision format:
+
+Push Status:
+SAFE TO PUSH / SAFE AFTER FIXES / NOT SAFE TO PUSH
+
+Commit Status:
+SAFE TO COMMIT / SAFE AFTER FIXES / NOT SAFE TO COMMIT
+
+Production Deploy Status:
+SAFE TO DEPLOY / SAFE AFTER FIXES / NOT SAFE TO DEPLOY / NOT APPLICABLE
+
+Database Migration Required:
+YES / NO / UNSURE
+
+Data Loss Risk:
+YES / NO / UNSURE
+
+Security Risk:
+LOW / MEDIUM / HIGH / CRITICAL
+
+QA Risk:
+LOW / MEDIUM / HIGH / CRITICAL
+
+Regression Risk:
+LOW / MEDIUM / HIGH / CRITICAL
+
+Overall Risk:
+LOW / MEDIUM / HIGH / CRITICAL
+
+PHASE 16 — PRIORITIZED FIX PLAN FOR THIS CHANGE
+
+Group findings into:
+
+P0 — Must fix before push
+P1 — Should fix before push
+P2 — Can fix after push but before production
+P3 — Cleanup/improvement
+
+For each item, include:
+
+- Issue
+- File(s)
+- Risk
+- Required fix
+- Requires DB migration: YES / NO / UNSURE
+- Requires manual testing: YES / NO
+- Estimated difficulty: Easy / Medium / Hard
+
+PHASE 17 — FINAL APPROVAL QUESTION
+
+At the very end, ask me:
+
+“Do you want me to fix the P0/P1 issues from this change-specific audit now? I will not modify files, commit, push, deploy, run migrations, or run destructive commands until you explicitly approve.”
+
+FINAL OUTPUT FORMAT:
+
+1. Executive Summary
+2. Current Git Changes Reviewed
+3. Change Intent Understanding
+4. Affected Flow Audit
+5. Security Impact Audit
+6. QA / Functional Impact Audit
+7. Code Review Audit
+8. Database & Migration Impact Audit
+9. Frontend Impact Audit
+10. Backend Impact Audit
+11. DevOps / Build / Deployment Impact Audit
+12. Testing Impact Audit
+13. Regression Risk Audit
+14. Unrelated / Accidental Change Audit
+15. Change-Specific Scorecard
+16. Final Push Decision
+17. P0/P1/P2/P3 Fix Plan
+18. Commands Run
+19. Files Reviewed
+20. Final Approval Question
+
+Be strict, detailed, and honest. If you are unsure, say UNSURE and explain exactly what must be checked. Do not approve push safety without evidence.
